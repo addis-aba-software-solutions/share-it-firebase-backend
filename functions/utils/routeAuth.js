@@ -12,11 +12,14 @@ exports.auth = async (req, res, next) => {
     });
   }
 
-  decodedToken = await admin.auth().verifyIdToken(token);
-  if (!decodedToken)
-    res.status(500).json({
-      error: 'Token expired',
+  try {
+    decodedToken = await admin.auth().verifyIdToken(token);
+  } catch (error) {
+    return res.status(500).json({
+      error: 'Invalid or expired Token',
     });
+  }
+
   req.user = decodedToken;
   data = await db
     .collection('users')
