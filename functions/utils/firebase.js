@@ -1,6 +1,13 @@
-const admin = require('firebase-admin');
-admin.initializeApp();
+var admin = require("firebase-admin");
+var serviceAccount = require("./serviceAccountKey.json");
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://share-it-5c4ec.firebaseio.com"
+});
+
 const db = admin.firestore();
+
 // TODO Change to share-it app config
 const firebaseConfig = {
   apiKey: 'AIzaSyDt2YfICPZr7gFzPK25SzwkSPM0JinwAQY',

@@ -37,6 +37,11 @@ exports.validate = (method) => {
           .withMessage('Not a valid email address'),
         body('password', 'password must not be empty').notEmpty(),
       ];
+    case "post":
+      return [
+        body('title', 'firstName must not be empty').notEmpty(),
+      ]
+
     default:
       return null;
   }
