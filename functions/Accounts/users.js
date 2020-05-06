@@ -145,4 +145,22 @@ exports.uploadImage = (req, res) => {
   });
   busboy.end(req.rawBody);
 };
-exports.test = () => {};
+// Get the user detail after the user is logged in
+// TODO NOT Needed for now
+exports.getAuthenticatedUser = async (req, res) => {
+  let userDetail = [];
+  try {
+    let doc = await db.doc(`/users/${req.user.email}`).get();
+    if (doc.exitsts()) {
+      userDetail.credential = doc.data();
+      let posts = await db.collection(`/posts/${req.user.email}`).get();
+      posts.forEach((post) => {
+        userDetail.posts.push(post);
+      });
+    }
+  } catch (error) {
+    return res.status(500).json({
+      error: error,
+    });
+  }
+};
