@@ -16,23 +16,27 @@ exports.uploadPostImage = (req, res) => {
   busboy.on('file', (fieldname, file, filename, encoding, mimetype) => {
     if (mimetype !== 'image/jpeg' && mimetype !== 'image/png') {
       return res.status(400).json({ error: 'Wrong file type submitted!' });
+    } else {
+      // Getting extension of any image
+      const imageExtension = filename.split('.')[
+        filename.split('.').length - 1
+      ];
+      // Setting filename
+      imageFileName = `${Math.round(
+        Math.random() * 1000000000
+      )}.${imageExtension}`;
+      // Creating path
+      const filepath = path.join(os.tmpdir(), imageFileName);
+      imageToAdd = {
+        imageFileName,
+        filepath,
+        mimetype,
+      };
+      file.pipe(fs.createWriteStream(filepath));
+      //Add the image to the array
+      imagesToUpload.push(imageToAdd);
+      return null;
     }
-    // Getting extension of any image
-    const imageExtension = filename.split('.')[filename.split('.').length - 1];
-    // Setting filename
-    imageFileName = `${Math.round(
-      Math.random() * 1000000000
-    )}.${imageExtension}`;
-    // Creating path
-    const filepath = path.join(os.tmpdir(), imageFileName);
-    imageToAdd = {
-      imageFileName,
-      filepath,
-      mimetype,
-    };
-    file.pipe(fs.createWriteStream(filepath));
-    //Add the image to the array
-    imagesToUpload.push(imageToAdd);
   });
 
   busboy.on('finish', async () => {

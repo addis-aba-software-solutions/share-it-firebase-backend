@@ -27,6 +27,5 @@ exports.auth = async (req, res, next) => {
     .limit(1)
     .get();
   req.user.email = data.docs[0].data().email;
-  console.log('the email is');
   return next();
 };

@@ -102,18 +102,22 @@ exports.uploadImage = (req, res) => {
       return res
         .status(400)
         .json({ error: `Wrong file type submitted ${filename}` });
-    }
-    // extract the image extension
-    const imageExtension = filename.split('.')[filename.split('.').length - 1];
+    } else {
+      // extract the image extension
+      const imageExtension = filename.split('.')[
+        filename.split('.').length - 1
+      ];
 
-    imageFileName = `${Math.round(
-      Math.random() * 1000000000000
-    )}.${imageExtension}`;
-    // image file path
-    const filepath = path.join(os.tmpdir(), imageFileName);
-    // image to be uploaded
-    imageToBeUploaded = { filepath, mimetype };
-    file.pipe(fs.createWriteStream(filepath));
+      imageFileName = `${Math.round(
+        Math.random() * 1000000000000
+      )}.${imageExtension}`;
+      // image file path
+      const filepath = path.join(os.tmpdir(), imageFileName);
+      // image to be uploaded
+      imageToBeUploaded = { filepath, mimetype };
+      file.pipe(fs.createWriteStream(filepath));
+      return null;
+    }
   });
 
   busboy.on('finish', () => {
