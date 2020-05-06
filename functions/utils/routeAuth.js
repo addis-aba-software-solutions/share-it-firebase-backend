@@ -12,13 +12,20 @@ exports.auth = async (req, res, next) => {
     });
   }
 
-  decodedToken = await admin.auth().verifyIdToken(token);
+  try {
+    decodedToken = await admin.auth().verifyIdToken(token);
+  } catch (error) {
+    return res.status(500).json({
+      error: 'Invalid or expired Token',
+    });
+  }
+
   req.user = decodedToken;
   data = await db
     .collection('users')
     .where('userId', '==', req.user.uid)
     .limit(1)
     .get();
-  req.user.handle = data.docs[0].data().email;
+  req.user.email = data.docs[0].data().email;
   return next();
 };

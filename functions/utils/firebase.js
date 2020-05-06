@@ -7,8 +7,6 @@ admin.initializeApp({
 });
 
 const db = admin.firestore();
-
-// TODO Change to share-it app config
 const firebaseConfig = {
   apiKey: 'AIzaSyDt2YfICPZr7gFzPK25SzwkSPM0JinwAQY',
   authDomain: 'share-it-5c4ec.firebaseapp.com',
