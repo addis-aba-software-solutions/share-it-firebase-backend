@@ -31,7 +31,6 @@ exports.signup = async (req, res) => {
       whatsapp: req.body.whatsapp,
       gender: req.body.gender,
       birthDay: req.body.birthDay,
-      description: req.body.description,
       streetAddress: req.body.streetAddress,
       streetAddress2: req.body.streetAddress2,
       state: req.body.state,
@@ -116,7 +115,6 @@ exports.uploadImage = (req, res) => {
       // image to be uploaded
       imageToBeUploaded = { filepath, mimetype };
       file.pipe(fs.createWriteStream(filepath));
-      return null;
     }
   });
 

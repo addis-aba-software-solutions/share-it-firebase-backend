@@ -30,6 +30,6 @@ app.get('/item-by-category', auth, getProductByCatagory);
 app.get('/item-by-sub-category', auth, getProductBySubCatagory);
 app.post('/subCatagory', auth, subCatagory);
 
-app.post('/posts', auth, postItem);
+app.post('/posts', auth, validate('post'), postItem);
 
 exports.api = functions.https.onRequest(app);
