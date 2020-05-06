@@ -11,11 +11,12 @@ const {
   uploadImage,
   getAuthenticatedUser,
 } = require('./Accounts/users');
-const { uploadPostImage } = require('./Posts/post');
+const { uploadPostImage, subCatagory } = require('./Posts/post');
 
 app.post('/login', validate('login'), login);
 app.post('/signup', validate('signup'), signup);
 app.post('/users/image', auth, uploadImage);
 // app.post('/user', auth, getAuthenticatedUser);
 app.post('/posts', auth, uploadPostImage);
+app.post('/subCatagory', auth, subCatagory);
 exports.api = functions.https.onRequest(app);

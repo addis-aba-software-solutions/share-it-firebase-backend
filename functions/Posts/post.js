@@ -76,3 +76,24 @@ exports.uploadPostImage = (req, res) => {
   });
   busboy.end(req.rawBody);
 };
+
+exports.subCatagory = (req, res) => {
+  let catagory = req.body.catagory;
+  const subProduct = ['product1', 'product2', 'product3'];
+  const subSevice = ['service1', 'service2', 'service3'];
+  const subDigital = ['digital1', 'digital2', 'digital3'];
+
+  switch (catagory) {
+    case 'Product':
+      res.status(200).json({ subCatagory: subProduct });
+      break;
+    case 'Service':
+      res.status(200).json({ subCatagory: subSevice });
+      break;
+    case 'Digital':
+      res.status(200).json({ subCatagory: subDigital });
+      break;
+    default:
+      return null;
+  }
+};
