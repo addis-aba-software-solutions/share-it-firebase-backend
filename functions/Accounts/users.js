@@ -31,6 +31,7 @@ exports.signup = async (req, res) => {
       whatsapp: req.body.whatsapp,
       gender: req.body.gender,
       birthDay: req.body.birthDay,
+      country: req.body.country,
       streetAddress: req.body.streetAddress,
       streetAddress2: req.body.streetAddress2,
       state: req.body.state,
@@ -144,21 +145,32 @@ exports.uploadImage = (req, res) => {
   busboy.end(req.rawBody);
 };
 // Get the user detail after the user is logged in
-// TODO NOT Needed for now
 exports.getAuthenticatedUser = async (req, res) => {
-  let userDetail = [];
   try {
+    let userData = {};
+
     let doc = await db.doc(`/users/${req.user.email}`).get();
-    if (doc.exitsts()) {
-      userDetail.credential = doc.data();
-      let posts = await db.collection(`/posts/${req.user.email}`).get();
-      posts.forEach((post) => {
-        userDetail.posts.push(post);
+
+    if (doc.exists) {
+      userData.credentials = doc.data();
+      const userPosts = await db
+        .collection('posts')
+        .where('email', '==', req.user.email)
+        .get();
+      userData.posts = [];
+      userPosts.docs.map((post) => {
+        userData.posts.push({ post: post.data(), id: post.id });
+      });
+    } else {
+      return res.status(404).json({
+        message: 'User not Found',
       });
     }
+    return res.status(200).json(userData);
   } catch (error) {
     return res.status(500).json({
-      error: error,
+      message: 'Some error occured',
+      error: error.code,
     });
   }
 };

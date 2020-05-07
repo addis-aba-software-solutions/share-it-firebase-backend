@@ -18,17 +18,23 @@ const {
   subCatagory,
 } = require('./Posts/post');
 
-const { login, signup, uploadImage } = require('./Accounts/users');
+const {
+  login,
+  signup,
+  uploadImage,
+  getAuthenticatedUser,
+} = require('./Accounts/users');
 
 app.post('/login', validate('login'), login);
 app.post('/signup', validate('signup'), signup);
 app.post('/users/image', auth, uploadImage);
+app.get('/getuser', auth, getAuthenticatedUser);
 
-app.get('/items', auth, getProducts);
-app.get('/item', auth, getProduct);
-app.get('/item-by-category', auth, getProductByCatagory);
-app.get('/item-by-sub-category', auth, getProductBySubCatagory);
-app.post('/subCatagory', auth, subCatagory);
+app.get('/items', getProducts);
+app.get('/item', getProduct);
+app.get('/item-by-category', getProductByCatagory);
+app.get('/item-by-sub-category', getProductBySubCatagory);
+app.post('/subCatagory', subCatagory);
 
 app.post('/posts', auth, validate('post'), postItem);
 
