@@ -168,7 +168,7 @@ exports.postItem = (req, res) => {
   });
   busboy.end(req.rawBody);
 };
-
+// Get sub category given category
 exports.subCatagory = (req, res) => {
   let catagory = req.body.catagory;
   const subProduct = ['product1', 'product2', 'product3'];
@@ -189,6 +189,7 @@ exports.subCatagory = (req, res) => {
       return null;
   }
 };
+// Update product status to sold
 exports.updatePostStatus = async (req, res) => {
   try {
     const post = await db
@@ -200,5 +201,26 @@ exports.updatePostStatus = async (req, res) => {
     });
   } catch (error) {
     return res.status(500).json({ error: error.code });
+  }
+};
+// Get all items that are not sold
+exports.availaleItems = async (req, res) => {
+  try {
+    const snapshot = await db
+      .collection('posts')
+      .where('sold', '==', false)
+      .orderBy('updatedAt', 'desc')
+     
+      .get();
+
+    const posts = [];
+    snapshot.docs.map((doc) => {
+      posts.push({ post: doc.data(), id: doc.id });
+    });
+    return res.status(200).json({
+      posts,
+    });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
   }
 };

@@ -17,6 +17,7 @@ const {
   postItem,
   subCatagory,
   updatePostStatus,
+  availaleItems,
 } = require('./Posts/post');
 
 const {
@@ -35,6 +36,7 @@ app.get('/items', getProducts);
 app.get('/item', getProduct);
 app.get('/item-by-category', getProductByCatagory);
 app.get('/item-by-sub-category', getProductBySubCatagory);
+app.get('/availableItems', availaleItems);
 app.post('/subCatagory', subCatagory);
 
 app.post('/posts', auth, validate('post'), postItem);
