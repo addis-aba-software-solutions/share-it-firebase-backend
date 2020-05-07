@@ -81,9 +81,6 @@ exports.postItem = (req, res) => {
   const path = require('path');
   const os = require('os');
   const fs = require('fs');
-  console.log('the log issss');
-  console.log(req.body);
-  console.log(req);
 
   // Instantiate busboy
   const busboy = new Busboy({ headers: req.headers });
