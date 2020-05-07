@@ -147,6 +147,7 @@ exports.postItem = (req, res) => {
         category: formData.get('category'),
         subCatagory: formData.get('subCatagory'),
         termAndCondition: formData.get('termAndCondition'),
+        sold: false,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
         email: req.user.email,
@@ -186,5 +187,18 @@ exports.subCatagory = (req, res) => {
       break;
     default:
       return null;
+  }
+};
+exports.updatePostStatus = async (req, res) => {
+  try {
+    const post = await db
+      .collection('posts')
+      .doc(req.query.id)
+      .update({ sold: true });
+    return res.status(200).json({
+      message: 'Item Status changed sold or rented',
+    });
+  } catch (error) {
+    return res.status(500).json({ error: error.code });
   }
 };

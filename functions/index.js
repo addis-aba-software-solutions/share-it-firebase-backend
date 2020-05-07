@@ -16,6 +16,7 @@ const {
   getProductBySubCatagory,
   postItem,
   subCatagory,
+  updatePostStatus,
 } = require('./Posts/post');
 
 const {
@@ -37,5 +38,6 @@ app.get('/item-by-sub-category', getProductBySubCatagory);
 app.post('/subCatagory', subCatagory);
 
 app.post('/posts', auth, validate('post'), postItem);
+app.post('/updateItemStatus', auth, updatePostStatus);
 
 exports.api = functions.https.onRequest(app);
