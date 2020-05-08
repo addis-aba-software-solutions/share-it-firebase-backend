@@ -174,3 +174,23 @@ exports.getAuthenticatedUser = async (req, res) => {
     });
   }
 };
+
+exports.checkEmail = async (req, res) => {
+  try {
+    const user = await db.collection('users').doc(req.query.email).get();
+
+    console.log('eme klsjfis');
+    console.log(user);
+    console.log(req.query.email);
+
+    if (user.exists) {
+      return res.status(409).json({
+        error: 'User with this email already exists',
+      });
+    } else {
+      return res.status(200).json({ message: 'Proceed to the next step' });
+    }
+  } catch (error) {
+    return res.status(500).json({ error: error.code });
+  }
+};

@@ -25,12 +25,14 @@ const {
   signup,
   uploadImage,
   getAuthenticatedUser,
+  checkEmail,
 } = require('./Accounts/users');
 
 app.post('/login', validate('login'), login);
 app.post('/signup', validate('signup'), signup);
 app.post('/users/image', auth, uploadImage);
 app.get('/getuser', auth, getAuthenticatedUser);
+app.get('/checkEmail', checkEmail);
 
 app.get('/items', getProducts);
 app.get('/item', getProduct);
